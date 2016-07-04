@@ -1,7 +1,6 @@
-#!/usr/bin/python
+import socket, sys, select
+from optparse import OptionParser
 
-import socket, select, string, sys
- 
 def prompt() :
     sys.stdout.write('')
     sys.stdout.flush()
@@ -47,23 +46,14 @@ def get_cmd():
 
 	return msg
 
- 
-if __name__ == "__main__":
-     
-    if(len(sys.argv) < 3) :
-        print 'Usage : python 3connect.py hostname port'
-        sys.exit()
-     
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-     
+def do_connection(ip,port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
     # connect to remote host
     try :
-        s.connect((host, port))
+        s.connect((ip, port))
     except :
-        print 'Unable to connect'
+        print '[-] Unable to connect.'
         sys.exit()
     print '[+] Connected to remote host.'
     prompt()
@@ -74,18 +64,76 @@ if __name__ == "__main__":
             if sock == s:
                 data = sock.recv(4096)
                 if not data :
-                    print '\nDisconnected from target'
+                    print '\n[-] Disconnected from target.'
                     sys.exit()
                 else :
                     sys.stdout.write(data)
                     prompt()
             else :
-                msg = sys.stdin.readline()
-		# Enumeration task
-		if msg[0] == "#":
-			msg = get_cmd()
-			s.send(msg)
-			prompt()
-                else:
-			s.send(msg)
-               		prompt()
+	      msg = sys.stdin.readline()
+	      if msg[0] == '#':
+	        msg = get_cmd()
+		s.send(msg)
+		prompt()
+	      else:
+	        s.send(msg)
+	        prompt()
+
+
+def do_server(ip,port):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	try :
+	  s.bind((ip, port))
+	  print '[+] Listening on %s port %s' % (ip,port)
+	except :
+	  print '[+] Unable to bind to %s' % port
+	  sys.exit()
+
+	s.listen(1)
+	conn, addr = s.accept()
+	print '[+] Connection from: ', addr
+	while 1:
+	  socket_list = [sys.stdin, conn]
+	  read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [])
+	  for sock in read_sockets:
+	    if sock == conn:
+	      data = conn.recv(4096)
+	      if not data :
+		print '\n[-] Disconnected from Target'
+		sys.exit()
+	      else :
+		sys.stdout.write(data)
+		prompt()
+	    else :
+	      msg = sys.stdin.readline()
+	      if msg[0] == '#':
+	        msg = get_cmd()
+		conn.send(msg)
+		prompt()
+	      else:
+	        conn.send(msg)
+	        prompt()
+
+if __name__ == "__main__":
+	usage = "%prog -H host -p port"
+	parser = OptionParser(usage=usage)
+	parser.add_option('-H', '--host', type='string', action='store', dest='host', help='Listen or Target host.')
+	parser.add_option('-p', '--port', type='int', action='store', dest='port', help='Port')
+	parser.add_option('-l', '--listen', action='store_true', dest='listen', help='Use in listen mode.')
+	parser.add_option('-c', '--connect', action='store_true', dest='connection', help='Connect to host.')
+	(options, args) = parser.parse_args()
+	
+	ip = options.host
+	port = options.port
+	if(ip is None or port is None):
+	  print "[-] Host and Port required."
+	  parser.print_help()
+	  exit(-1)
+
+	if options.listen == True:
+	  do_server(ip,port)
+	elif options.connection == True:
+	  do_connection(ip,port)
+	else:   
+	  print '[-] Nothing to do, closing.'
+	  exit(-1)
