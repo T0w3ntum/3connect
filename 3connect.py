@@ -26,6 +26,7 @@ def get_cmd():
 				2. Linux Basic
 					uname -a | /etc/isue | ls -al /etc/cron.*
 				3. Find writable directories
+				4. Environment Variables
 				""")
 				ans = raw_input("[!]>")
 				if ans == "1":
@@ -38,6 +39,10 @@ def get_cmd():
 					p = False
 				elif ans == "3":
 					msg = "find / -type d \( -perm -g+w -or -perm -o+w \) -exec ls -adl {} \;\n"
+					ans = False
+					p = False
+				elif ans == "4":
+					msg = "cat /etc/profile ; cat /etc/bashrc ; cat ~/.bash_profile ; cat ~/.bashrc ; cat ~/.bash_logout ; env ; set\n"
 					ans = False
 					p = False
 				elif ans !="":
@@ -68,6 +73,8 @@ def do_connection(ip,port):
                     sys.exit()
                 else :
                     sys.stdout.write(data)
+		    with open("3connect.log", "a") as f:
+			f.write(data)
                     prompt()
             else :
 	      msg = sys.stdin.readline()
@@ -103,6 +110,8 @@ def do_server(ip,port):
 		sys.exit()
 	      else :
 		sys.stdout.write(data)
+                with open("3connect.log", "a") as f:
+                    f.write(data)
 		prompt()
 	    else :
 	      msg = sys.stdin.readline()
