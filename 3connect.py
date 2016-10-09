@@ -27,6 +27,8 @@ def get_cmd():
 					uname -a | /etc/isue | ls -al /etc/cron.*
 				3. Find writable directories
 				4. Environment Variables
+				5. Network Info
+				6. Installed Applications
 				""")
 				ans = raw_input("[!]>")
 				if ans == "1":
@@ -34,7 +36,7 @@ def get_cmd():
 					ans = False
 					p = False
 				elif ans == "2":
-					msg = "uname -a; cat /etc/issue; ls -al /etc/cron.*; cat /etc/crontab; ps -aux | grep root\n"
+					msg = "uname -a; cat /etc/issue; ls -al /etc/cron.*; cat /etc/crontab; ps -aux | grep root; cat /etc/services\n"
 					ans = False
 					p = False
 				elif ans == "3":
@@ -43,6 +45,14 @@ def get_cmd():
 					p = False
 				elif ans == "4":
 					msg = "cat /etc/profile ; cat /etc/bashrc ; cat ~/.bash_profile ; cat ~/.bashrc ; cat ~/.bash_logout ; env ; set\n"
+					ans = False
+					p = False
+				elif ans == "5":
+					msg = "ifconfig -a ; arp -a ; netstat -lntp\n"
+					ans = False
+					p = False
+				elif ans == "6":
+					msg = "ls -alh /usr/bin/ ; ls -alh /sbin/ ; dpkg -l ; rpm -qa ; ls -alh /var/cache/apt/archives0 ; ls -alh /var/cache/yum/\n"
 					ans = False
 					p = False
 				elif ans !="":
