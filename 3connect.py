@@ -55,11 +55,19 @@ def main_loop(s):
 				msg = sys.stdin.readline()
 				if msg[0] == '#':
 					msg = get_cmd()
-					s.send(msg)
-					prompt()
+					if "plugin" in msg:
+						load_plugin(msg,s)
+					else:					
+						s.send(msg)
+						prompt()
 				else:
 					s.send(msg)
 					prompt()
+
+def load_plugin(plugin,s):
+	load = plugin.split(':')[1]
+	plugin = __import__(load)
+	plugin.main(s)
 
 def do_connection(ip,port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
