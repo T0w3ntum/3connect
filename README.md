@@ -47,3 +47,6 @@ Each options is loaded from the `linux.json` file for linux and the `windows.jso
 ## Plugin Support
 
 You'll notice a test plugin in the `linux.json` file. 3connect will load a plugin if `plugin:` is found in the command for a particular option. It will then call that plugins main function and pass the socket to it. This is to allow you to extend the functionality, I have provided a basic (altthough useless) example in kernelsearch.py.
+
+
+Shoutout to @phack-it for moral support. 
