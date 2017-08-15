@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import socket, sys, select, json
 from optparse import OptionParser
 
