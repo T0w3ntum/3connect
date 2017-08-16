@@ -59,6 +59,7 @@ def main_loop(s):
 					msg = get_cmd()
 					if "plugin" in msg:
 						load_plugin(msg,s)
+						prompt()
 					else:
 						s.send(msg)
 						prompt()

