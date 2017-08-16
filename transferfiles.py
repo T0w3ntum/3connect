@@ -37,11 +37,9 @@ def base64(s):
 	writable_dir = raw_input("> Full path to write to: ")
 	output_file = raw_input("> Output file name: ")
 	command = "echo "+encoded+" > " + writable_dir+"/conn64.txt\n"
-	print command
 	s.send(command)
 	time.sleep(2)
 	command = "base64 -d "+writable_dir+"/conn64.txt > "+writable_dir+"/"+output_file+"; rm "+writable_dir+"/conn64.txt\n" 
-	print command
 	s.send(command)
 
 def main(s):
