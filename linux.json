@@ -6,6 +6,7 @@
   "5": ["Network Info", "ifconfig -a ; arp -a ; netstat -lntp\n"],
   "6": ["Installed Applications", "ls -alh /usr/bin/ ; ls -alh /sbin/ ; dpkg -l ; rpm -qa ; ls -alh /var/cache/apt/archives0 ; ls -alh /var/cache/yum/\n"],
   "7": ["Find SETUID files", "find / -user root -perm -4000 2>/dev/null\n"],
-  "8": ["Plugin - Check searchsploit for Kernel", "plugin:kernelsearch"]
+  "8": ["Plugin - Transfer Files", "plugin:transferfiles"],
+  "9": ["Plugin - Check searchsploit for Kernel", "plugin:kernelsearch"]
 }
 

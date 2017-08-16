@@ -4,7 +4,7 @@ import socket, sys, select, json
 from optparse import OptionParser
 
 def prompt() :
-    sys.stdout.write('')
+    sys.stdout.write('3connect>: ')
     sys.stdout.flush()
 
 def print_opt(file):
@@ -49,7 +49,7 @@ def main_loop(s):
 					print '\n[-] Disconnected from target.'
 					sys.exit()
 				else:
-					sys.stdout.write(data)
+					sys.stdout.write("\n"+data)
 					with open("3connect.log", "a") as f:
 						f.write(data)
 					prompt()
@@ -59,7 +59,7 @@ def main_loop(s):
 					msg = get_cmd()
 					if "plugin" in msg:
 						load_plugin(msg,s)
-					else:					
+					else:
 						s.send(msg)
 						prompt()
 				else:
@@ -74,7 +74,6 @@ def load_plugin(plugin,s):
 def do_connection(ip,port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
-    # connect to remote host
     try :
         s.connect((ip, port))
     except :
