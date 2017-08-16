@@ -4,7 +4,7 @@ import socket, sys, select, json
 from optparse import OptionParser
 
 def prompt() :
-    sys.stdout.write('3connect>: ')
+    sys.stdout.write('')
     sys.stdout.flush()
 
 def print_opt(file):

